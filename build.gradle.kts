@@ -81,8 +81,7 @@ val fatJar = task("fatJar", type = Jar::class) {
     attributes["Bundle-Description"] = "Nice project"
     attributes["Bundle-Version"] = "1.0.0"
     attributes["Bundle-Activator"] = application.mainClassName
-    attributes["Import-Package"] = "org.osgi.framework;com.esentri.edv.server.core"
-    attributes["Export-Package"] = "com.esentri.edv.server.core"
+    attributes["Import-Package"] = "org.osgi.framework"
   }
   from(configurations.runtime.map({ if (it.isDirectory) it else zipTree(it) }))
   with(tasks["jar"] as CopySpec)
