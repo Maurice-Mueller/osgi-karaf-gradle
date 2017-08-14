@@ -1,6 +1,6 @@
-package com.esentri.edv.server.ex2
+package com.esentri.ex2
 
-import com.esentri.edv.server.ex2.service.DictionaryService
+import com.esentri.ex2.service.DictionaryService
 
 class DictionaryServiceImpl : DictionaryService {
   override fun checkWord(word: String): Boolean {

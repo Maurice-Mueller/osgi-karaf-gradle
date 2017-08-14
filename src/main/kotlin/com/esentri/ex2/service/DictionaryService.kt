@@ -1,4 +1,4 @@
-package com.esentri.edv.server.ex2.service
+package com.esentri.ex2.service
 
 
 interface DictionaryService {
