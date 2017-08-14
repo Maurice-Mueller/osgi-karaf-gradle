@@ -51,7 +51,7 @@ plugins {
 }
 
 application {
-  mainClassName = "com.esentri.edv.server.core.Activator"
+  mainClassName = "com.esentri.edv.server.ex2.Activator"
 }
 
 dependencies {
@@ -81,8 +81,8 @@ val fatJar = task("fatJar", type = Jar::class) {
     attributes["Bundle-Description"] = "Nice project"
     attributes["Bundle-Version"] = "1.0.0"
     attributes["Bundle-Activator"] = application.mainClassName
-    attributes["Import-Package"] = "org.osgi.framework;com.esentri.edv.server.core"
-    attributes["Export-Package"] = "com.esentri.edv.server.core"
+    attributes["Import-Package"] = "org.osgi.framework"
+    attributes["Export-Package"] = "com.esentri.edv.server.ex2.service"
   }
   from(configurations.runtime.map({ if (it.isDirectory) it else zipTree(it) }))
   with(tasks["jar"] as CopySpec)
@@ -156,5 +156,5 @@ tasks {
 }
 
 task("copyJarToDocker", type = Exec::class) {
-  commandLine = arrayListOf("docker", "cp", "build/libs/test-karaf-fat-1.0.0-dev.jar", "${karafDockerContainerName}:/opt/karaf/builds/")
+  commandLine = arrayListOf("docker", "cp", "build/libs/${project.name}-fat-1.0.0-dev.jar", "${karafDockerContainerName}:/opt/karaf/builds/")
 }
