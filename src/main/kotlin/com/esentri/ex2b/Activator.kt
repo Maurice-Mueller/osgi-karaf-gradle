@@ -10,7 +10,7 @@ class Activator: BundleActivator {
   override fun start(context: BundleContext) {
       val props = Hashtable<String, String>()
       props.put("Language", "English")
-      context.registerService(DictionaryService::class.simpleName, DictionaryServiceImpl(), props)
+      context.registerService(DictionaryService::class.java.name, DictionaryServiceImpl(), props)
   }
 
   override fun stop(context: BundleContext) {
