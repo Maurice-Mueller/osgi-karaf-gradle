@@ -51,7 +51,7 @@ plugins {
 }
 
 application {
-  mainClassName = "com.example.ex5.Activator"
+  mainClassName = "com.example.ex7.Activator"
 }
 
 dependencies {

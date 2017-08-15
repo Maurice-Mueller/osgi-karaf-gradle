@@ -1,4 +1,4 @@
-package com.example.ex5
+package com.example.ex7
 
 import com.example.ex2.service.DictionaryService
 import org.osgi.framework.BundleActivator
