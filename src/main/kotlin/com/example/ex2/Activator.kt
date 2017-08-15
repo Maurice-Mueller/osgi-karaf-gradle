@@ -1,6 +1,6 @@
-package com.esentri.ex2
+package com.example.ex2
 
-import com.esentri.ex2.service.DictionaryService
+import com.example.ex2.service.DictionaryService
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
 import java.util.Hashtable

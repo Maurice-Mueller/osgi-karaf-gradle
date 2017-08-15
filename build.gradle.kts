@@ -51,7 +51,7 @@ plugins {
 }
 
 application {
-  mainClassName = "com.esentri.ex2.Activator"
+  mainClassName = "com.example.ex2.Activator"
 }
 
 dependencies {
@@ -82,7 +82,7 @@ val fatJar = task("fatJar", type = Jar::class) {
     attributes["Bundle-Version"] = "1.0.0"
     attributes["Bundle-Activator"] = application.mainClassName
     attributes["Import-Package"] = "org.osgi.framework"
-    attributes["Export-Package"] = "com.esentri.ex2.service"
+    attributes["Export-Package"] = "com.example.ex2.service"
   }
   from(configurations.runtime.map({ if (it.isDirectory) it else zipTree(it) }))
   with(tasks["jar"] as CopySpec)
