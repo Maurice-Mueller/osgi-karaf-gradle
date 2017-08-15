@@ -28,10 +28,11 @@ class Activator : BundleActivator, ServiceListener {
 
       serviceReferences!!.forEach {
         dictionaries.add(Pair(this.context!!.getService<Any>(it as ServiceReference<Any>) as DictionaryService, it.getProperty("Language") as String))
-        println("service added: ${it.getProperty("Language")}")
+        println("SpellChecker:: service added: ${it.getProperty("Language")}")
       }
 
-      serviceRegistration = this.context!!.registerService(SpellChecker::class.java.name, SpellCheckerDefault(dictionaries), null) as ServiceRegistration<SpellChecker>
+      if(dictionaries.size > 0)
+        registerSpellcheckerService()
     }
   }
 
@@ -51,17 +52,20 @@ class Activator : BundleActivator, ServiceListener {
   }
 
   private fun handleUnregisteringEvent(event: ServiceEvent) {
-    println("service unregistered: ${event.serviceReference!!.getProperty("Language")}")
+    println("SpellChecker:: service unregistered: ${event.serviceReference!!.getProperty("Language")}")
     val service = this.context!!.getService(event.serviceReference)
     service ?: return
 
     val oldDictionaryPair = generatePair(event.serviceReference)
     dictionaries.remove(oldDictionaryPair)
-    println("service removed: ${event.serviceReference!!.getProperty("Language")}")
+    println("SpellChecker:: service removed: ${event.serviceReference!!.getProperty("Language")}")
+
+    if(dictionaries.isEmpty() && serviceRegistration != null)
+      unregisterSpellcheckerService()
   }
 
   private fun handleRegisteringEvent(event: ServiceEvent) {
-    println("service registered: ${event.serviceReference!!.getProperty("Language")}")
+    println("SpellChecker:: service registered: ${event.serviceReference!!.getProperty("Language")}")
     val service = this.context!!.getService(event.serviceReference)
     service ?: return
 
@@ -71,7 +75,21 @@ class Activator : BundleActivator, ServiceListener {
       return
 
     dictionaries.add(newDictionaryPair)
-    println("service added: ${event.serviceReference!!.getProperty("Language")}")
+    println("SpellChecker:: service added: ${event.serviceReference!!.getProperty("Language")}")
+
+    if(serviceRegistration == null)
+      registerSpellcheckerService()
+  }
+
+  private fun registerSpellcheckerService() {
+    serviceRegistration = this.context!!.registerService(SpellChecker::class.java.name, SpellCheckerDefault(dictionaries), null) as ServiceRegistration<SpellChecker>
+    println("SpellChecker:: SpellcheckerService registered")
+  }
+
+  private fun unregisterSpellcheckerService() {
+    serviceRegistration!!.unregister()
+    serviceRegistration = null
+    println("SpellChecker:: SpellcheckerService unregistered")
   }
 
   private fun generatePair(serviceReference: ServiceReference<*>): Pair<DictionaryService, String> =
