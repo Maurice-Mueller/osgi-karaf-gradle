@@ -1,59 +1,37 @@
 package com.example.ex6
 
 import com.example.ex2.service.DictionaryService
-import org.osgi.framework.BundleActivator
-import org.osgi.framework.BundleContext
-import org.osgi.framework.ServiceListener
-import org.osgi.framework.ServiceReference
-import java.io.InputStreamReader
-import java.io.BufferedReader
-import org.osgi.framework.ServiceEvent
+import com.example.ex6.service.SpellChecker
+import org.osgi.framework.*
 
+
+typealias ServiceRef = ServiceReference<DictionaryService>
 
 class Activator : BundleActivator, ServiceListener {
 
   private var context: BundleContext? = null
-  private var serviceReference: ServiceReference<*>? = null
-  private var dictionaryService: DictionaryService? = null
+  private var serviceReferences: MutableList<ServiceRef> = ArrayList()
+  private var serviceRegistration: ServiceRegistration<SpellChecker>? = null
+  private var dictionaries = ArrayList<Pair<DictionaryService, String>>()
 
   override fun start(context: BundleContext) {
     this.context = context
+
     synchronized(this) {
       // Listen for events pertaining to dictionary services.
       this.context!!.addServiceListener(this,
         "(&(objectClass=" + DictionaryService::class.java.name + ")" +
           "(Language=*))")
 
-      val refs = this.context!!.getServiceReferences(
-        DictionaryService::class.java.name, "(Language=*)")
+      serviceReferences = this.context!!.getServiceReferences(
+        DictionaryService::class.java.name, "(Language=*)").toMutableList() as MutableList<ServiceRef>
 
-      if (refs != null) {
-        serviceReference = refs[0]
-        dictionaryService = this.context!!.getService<Any>(serviceReference as ServiceReference<Any>?) as DictionaryService
+      serviceReferences!!.forEach {
+        dictionaries.add(Pair(this.context!!.getService<Any>(it as ServiceReference<Any>) as DictionaryService, it.getProperty("Language") as String))
+        println("service added: ${it.getProperty("Language")}")
       }
-    }
 
-    checkWordsFromUser()
-  }
-
-  private fun checkWordsFromUser() {
-    println("Enter a blank line to exit.")
-    var word = ""
-    val console = BufferedReader(InputStreamReader(System.`in`))
-
-    while (true) {
-      print("Enter word: ")
-      word = console.readLine()
-
-      if (word.length == 0) {
-        break
-      } else if (dictionaryService == null) {
-        println("No dictionary available.")
-      } else if (dictionaryService!!.checkWord(word)) {
-        println("Correct.")
-      } else {
-        println("Incorrect.")
-      }
+      serviceRegistration = this.context!!.registerService(SpellChecker::class.java.name, SpellCheckerDefault(dictionaries), null) as ServiceRegistration<SpellChecker>
     }
   }
 
@@ -74,33 +52,29 @@ class Activator : BundleActivator, ServiceListener {
 
   private fun handleUnregisteringEvent(event: ServiceEvent) {
     println("service unregistered: ${event.serviceReference!!.getProperty("Language")}")
-    if (event.serviceReference != serviceReference)
-      return
-    // Unget service object and null references.
-    context!!.ungetService(serviceReference)
-    serviceReference = null
-    dictionaryService = null
+    val service = this.context!!.getService(event.serviceReference)
+    service ?: return
 
-    // Query to see if we can get another service.
-    var refs: Array<ServiceReference<*>>? = null
-    refs = context!!.getServiceReferences(
-    DictionaryService::class.java.name, "(Language=*)")
-
-    if (refs != null) {
-      // Get a reference to the first service object.
-      serviceReference = refs[0]
-      dictionaryService = context!!.getService<Any>(serviceReference as ServiceReference<Any>?) as DictionaryService
-    }
+    val oldDictionaryPair = generatePair(event.serviceReference)
+    dictionaries.remove(oldDictionaryPair)
+    println("service removed: ${event.serviceReference!!.getProperty("Language")}")
   }
 
   private fun handleRegisteringEvent(event: ServiceEvent) {
-    println("new service registered: ${event.serviceReference!!.getProperty("Language")}")
-    if (serviceReference != null)
+    println("service registered: ${event.serviceReference!!.getProperty("Language")}")
+    val service = this.context!!.getService(event.serviceReference)
+    service ?: return
+
+    val newDictionaryPair = generatePair(event.serviceReference)
+
+    if(dictionaries.contains(newDictionaryPair))
       return
-    // Get a reference to the service object.
-    serviceReference = event.serviceReference
-    dictionaryService = context!!.getService<Any>(serviceReference as ServiceReference<Any>?) as DictionaryService
-    println("new service set: ${serviceReference!!.getProperty("Language")}")
+
+    dictionaries.add(newDictionaryPair)
+    println("service added: ${event.serviceReference!!.getProperty("Language")}")
   }
 
+  private fun generatePair(serviceReference: ServiceReference<*>): Pair<DictionaryService, String> =
+    Pair(this.context!!.getService<Any>(serviceReference as ServiceReference<Any>?) as DictionaryService,
+      serviceReference.getProperty("Language") as String)
 }
