@@ -1,6 +1,6 @@
 package com.esentri.ex3
 
-import com.esentri.ex3.service.DictionaryService
+import com.esentri.ex2.service.DictionaryService
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
 import org.osgi.framework.ServiceReference
