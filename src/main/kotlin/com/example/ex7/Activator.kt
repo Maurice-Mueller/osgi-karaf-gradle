@@ -1,6 +1,7 @@
 package com.example.ex7
 
 import com.example.ex2.service.DictionaryService
+import com.example.ex6.service.SpellChecker
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
 import java.io.InputStreamReader
@@ -11,15 +12,15 @@ import org.osgi.util.tracker.ServiceTracker
 class Activator : BundleActivator {
 
   private var context: BundleContext? = null
-  private var serviceTracker: ServiceTracker<*, DictionaryService>? = null
+  private var serviceTracker: ServiceTracker<*, SpellChecker>? = null
 
   override fun start(context: BundleContext) {
     this.context = context
 
     // Create a service tracker to monitor dictionary services.
-    serviceTracker = ServiceTracker<Any, DictionaryService>(
+    serviceTracker = ServiceTracker<Any, SpellChecker>(
       this.context!!,
-      this.context!!.createFilter("(&(objectClass=" + DictionaryService::class.java.name + ")(Language=*))"), null)
+      this.context!!.createFilter("(objectClass=" + SpellChecker::class.java.name + ")"), null)
     serviceTracker!!.open()
 
     readWordsFromUser()
@@ -35,17 +36,15 @@ class Activator : BundleActivator {
       word = console.readLine()
 
       // Get the selected dictionary service, if available.
-      val dictionary = serviceTracker!!.service
+      val spellChecker = serviceTracker!!.service
 
-      if (word.length == 0) {
+      if (word.length == 0)
         break
-      } else if (dictionary == null) {
-        println("No dictionary available.")
-      } else if (dictionary.checkWord(word)) {
-        println("Correct.")
-      } else {
-        println("Incorrect.")
+      if(spellChecker == null) {
+        println("no spellchecker available")
+        break
       }
+      spellChecker.check(word)
     }
   }
 
