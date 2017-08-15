@@ -51,7 +51,7 @@ plugins {
 }
 
 application {
-  mainClassName = "com.esentri.edv.server.core.Activator"
+  mainClassName = "com.example.edv.server.core.Activator"
 }
 
 dependencies {

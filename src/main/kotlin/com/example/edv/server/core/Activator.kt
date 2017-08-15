@@ -1,4 +1,4 @@
-package com.esentri.edv.server.core
+package com.example.edv.server.core
 
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.ServiceEvent
