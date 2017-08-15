@@ -1,13 +1,12 @@
-package com.esentri.ex4
+package com.example.ex4
 
-import com.esentri.ex2.service.DictionaryService
+import com.example.ex2.service.DictionaryService
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
 import org.osgi.framework.ServiceListener
 import org.osgi.framework.ServiceReference
 import java.io.InputStreamReader
 import java.io.BufferedReader
-import org.osgi.framework.InvalidSyntaxException
 import org.osgi.framework.ServiceEvent
 
 
