@@ -1,4 +1,4 @@
-package com.example.edv.server.core
+package com.example.ex1
 
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.ServiceEvent
