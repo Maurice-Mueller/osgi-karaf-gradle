@@ -51,7 +51,7 @@ plugins {
 }
 
 application {
-  mainClassName = "com.example.edv.server.core.Activator"
+  mainClassName = "com.example.ex1.Activator"
 }
 
 dependencies {
