@@ -51,7 +51,7 @@ plugins {
 }
 
 application {
-  mainClassName = "com.esentri.ex3.Activator"
+  mainClassName = "com.esentri.ex4.Activator"
 }
 
 dependencies {

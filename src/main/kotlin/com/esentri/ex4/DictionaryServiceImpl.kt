@@ -1,4 +1,4 @@
-package com.esentri.ex3
+package com.esentri.ex4
 
 import com.esentri.ex2.service.DictionaryService
 
