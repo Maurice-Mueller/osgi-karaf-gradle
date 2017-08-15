@@ -15,9 +15,9 @@ class SpellCheckerDefault(val dictionaries: MutableList<Pair<DictionaryService, 
       dictionaries.forEach { (dictionary, name) ->
         if(dictionary.checkWord(word)) {
           println("${word} is valid for ${name}")
-          return
+        } else {
+          println("${word} is invalid for ${name}")
         }
-        println("${word} is invalid for ${name}")
       }
     }
   }
