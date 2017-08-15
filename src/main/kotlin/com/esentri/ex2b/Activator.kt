@@ -1,6 +1,6 @@
 package com.esentri.ex2b
 
-import com.esentri.ex2b.service.DictionaryService
+import com.esentri.ex2.service.DictionaryService
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
 import java.util.*
