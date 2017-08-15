@@ -50,9 +50,6 @@ plugins {
   idea
 }
 
-application {
-  mainClassName = "com.example.ex6.Activator"
-}
 
 dependencies {
   compile(kotlin("stdlib"))
@@ -80,9 +77,8 @@ val fatJar = task("fatJar", type = Jar::class) {
     attributes["Bundle-SymbolicName"] = baseName
     attributes["Bundle-Description"] = "Nice project"
     attributes["Bundle-Version"] = "1.0.0"
-    attributes["Bundle-Activator"] = application.mainClassName
     attributes["Import-Package"] = "org.osgi.framework;com.example.ex2.service"
-    attributes["Export-Package"] = "com.example.ex6.service"
+    attributes["Export-Package"] = "com.example.ex9.service"
   }
   from(configurations.runtime.map({ if (it.isDirectory) it else zipTree(it) }))
   with(tasks["jar"] as CopySpec)
