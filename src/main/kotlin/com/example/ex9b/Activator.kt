@@ -1,7 +1,6 @@
-package com.example.ex7
+package com.example.ex9b
 
-import com.example.ex2.service.DictionaryService
-import com.example.ex6.service.SpellChecker
+import com.example.ex9b.service.SpellCheckerEx9
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
 import java.io.InputStreamReader
@@ -12,15 +11,15 @@ import org.osgi.util.tracker.ServiceTracker
 class Activator : BundleActivator {
 
   private var context: BundleContext? = null
-  private var serviceTracker: ServiceTracker<*, SpellChecker>? = null
+  private var serviceTracker: ServiceTracker<*, SpellCheckerEx9>? = null
 
   override fun start(context: BundleContext) {
     this.context = context
 
     // Create a service tracker to monitor dictionary services.
-    serviceTracker = ServiceTracker<Any, SpellChecker>(
+    serviceTracker = ServiceTracker<Any, SpellCheckerEx9>(
       this.context!!,
-      this.context!!.createFilter("(objectClass=" + SpellChecker::class.java.name + ")"), null)
+      this.context!!.createFilter("(objectClass=" + SpellCheckerEx9::class.java.name + ")"), null)
     serviceTracker!!.open()
 
     readWordsFromUser()

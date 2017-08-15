@@ -51,7 +51,7 @@ plugins {
 }
 
 application {
-  mainClassName = "com.example.ex7.Activator"
+  mainClassName = "com.example.ex9b.Activator"
 }
 
 dependencies {
@@ -81,7 +81,7 @@ val fatJar = task("fatJar", type = Jar::class) {
     attributes["Bundle-Description"] = "Nice project"
     attributes["Bundle-Version"] = "1.0.0"
     attributes["Bundle-Activator"] = application.mainClassName
-    attributes["Import-Package"] = "org.osgi.framework;com.example.ex6.service;org.osgi.util.tracker"
+    attributes["Import-Package"] = "org.osgi.framework;com.example.ex9.service;org.osgi.util.tracker"
   }
   from(configurations.runtime.map({ if (it.isDirectory) it else zipTree(it) }))
   with(tasks["jar"] as CopySpec)
