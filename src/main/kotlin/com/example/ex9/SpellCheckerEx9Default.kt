@@ -24,6 +24,10 @@ class SpellCheckerEx9Default : SpellCheckerEx9 {
   @Activate
   fun activate() {
     println("SpellCheckerEx9Default: activated")
+    if(dictionaries != null)
+      println("SpellCheckerEx9Default: number of dictionary services: " + dictionaries.size)
+    else
+      println("SpellCheckerEx9Default: number of dictionary services: null")
   }
 
   @Deactivate
@@ -32,12 +36,14 @@ class SpellCheckerEx9Default : SpellCheckerEx9 {
   }
 
   override fun check(word: String) {
-    if (word == null || word.length === 0) {
-      println("SpellCheckerEx9Default: word empty or null")
+    if (word.isEmpty()) {
+      println("SpellCheckerEx9Default: word empty")
       return
     }
     println("SpellCheckerEx9Default: check called")
-    synchronized(dictionaries!!) {
+    if(dictionaries == null)
+      return
+    synchronized(dictionaries) {
       dictionaries.forEachIndexed { index, dictionary ->
         if (dictionary.checkWord(word)) {
           println("${word} is valid for ${index}")
