@@ -1,4 +1,4 @@
-package com.example.ex9b.service
+package com.example.ex9.service
 
 
 interface SpellCheckerEx9 {

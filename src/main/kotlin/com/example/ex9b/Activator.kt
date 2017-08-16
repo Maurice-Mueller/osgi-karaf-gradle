@@ -1,6 +1,6 @@
 package com.example.ex9b
 
-import com.example.ex9b.service.SpellCheckerEx9
+import com.example.ex9.service.SpellCheckerEx9
 import org.osgi.framework.BundleActivator
 import org.osgi.framework.BundleContext
 import java.io.InputStreamReader
