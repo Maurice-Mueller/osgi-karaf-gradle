@@ -7,8 +7,8 @@ import org.osgi.service.component.ComponentContext
 import org.osgi.service.component.annotations.*
 
 
-@Component
-class SpellCheckerEx9Default(): SpellCheckerEx9 {
+@Component(immediate = true)
+class SpellCheckerEx9Default : SpellCheckerEx9 {
 
   /**
    * List of service objects.
@@ -22,16 +22,12 @@ class SpellCheckerEx9Default(): SpellCheckerEx9 {
 
 
   @Activate
-  fun activate(cc: ComponentContext,
-               bc: BundleContext,
-               config: Map<String,Object>) {
+  fun activate() {
     println("SpellCheckerEx9Default: activated")
   }
 
   @Deactivate
-  fun deactivate(cc: ComponentContext,
-               bc: BundleContext,
-               config: Map<String,Object>) {
+  fun deactivate() {
     println("SpellCheckerEx9Default: deactivated")
   }
 
@@ -43,7 +39,7 @@ class SpellCheckerEx9Default(): SpellCheckerEx9 {
     println("SpellCheckerEx9Default: check called")
     synchronized(dictionaries!!) {
       dictionaries.forEachIndexed { index, dictionary ->
-        if(dictionary.checkWord(word)) {
+        if (dictionary.checkWord(word)) {
           println("${word} is valid for ${index}")
         } else {
           println("${word} is invalid for ${index}")
