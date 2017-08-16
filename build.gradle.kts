@@ -12,7 +12,6 @@ buildscript {
     classpath("org.junit.platform:junit-platform-gradle-plugin:${project.extra.get("junit_platform")}")
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.extra.get("kotlin_version")}")
     classpath("org.jayware:gradle-osgi-ds:0.5.5")
-
   }
 }
 
