@@ -11,6 +11,8 @@ buildscript {
   dependencies {
     classpath("org.junit.platform:junit-platform-gradle-plugin:${project.extra.get("junit_platform")}")
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${project.extra.get("kotlin_version")}")
+    classpath("org.jayware:gradle-osgi-ds:0.5.5")
+
   }
 }
 
@@ -41,13 +43,16 @@ repositories {
 
 apply {
   plugin("org.junit.platform.gradle.plugin")
+  plugin("org.jayware.osgi-ds")
+  //plugin("com.athaydes.osgi-ds")
+  //plugin("com.athaydes.osgi-run")
 }
 
 plugins {
   kotlin("jvm")
   java
-  application
   idea
+  //osgi
 }
 
 
